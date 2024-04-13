@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, mergeMap, tap } from 'rxjs';
+import { Subscription, mergeMap } from 'rxjs';
 import { DataService, MovieComplete } from '../../services/data.service';
 
 @Component({
