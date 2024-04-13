@@ -97,7 +97,7 @@ export class DataService {
           })
         )
       ),
-      map((Search) => {
+      map((Search: MovieComplete[]) => {
         Search = Search.sort(({ Year: year1 }: MovieComplete, { Year: year2 }: MovieComplete) => year1 - year2);
         this.decades.sort((a, b) => a - b);
         this.storedMovies = { Search, Decades: this.decades };

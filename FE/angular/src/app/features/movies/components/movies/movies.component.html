@@ -7,7 +7,9 @@
 
 <ul class="movies" *ngIf="filteredMovies.length">
   <li *ngFor="let movie of filteredMovies" class="grid grid-bleed">
-    <div class="image col-3"><img [src]="movie.Poster" [alt]="movie.Title" /></div>
+    <div class="image col-3">
+      <app-movie-image [src]="movie.Poster" [alt]="movie.Title" />
+    </div>
     <div class="content col-9 col-grid">
       <div class="title" title="{{ movie.Title }}">
         <p class="ellipsis">{{ movie.Title }}</p>

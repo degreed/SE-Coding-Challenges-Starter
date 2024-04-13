@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { BaseLink, Link } from '../../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-decades',
-  templateUrl: './decades.component.html'
+  templateUrl: './decades.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DecadesComponent implements OnInit {
   @Input() public currDecade: number | undefined;

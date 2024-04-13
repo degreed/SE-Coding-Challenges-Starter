@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-go-details',
-  templateUrl: './go-details.component.html'
+  templateUrl: './go-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GoDetailsComponent {
   @Input() public imdbId: string;

@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 export const imdbBaseLink = 'https://www.imdb.com/title/';
 
 @Component({
   selector: 'app-go-imdb',
-  templateUrl: './go-imdb.component.html'
+  templateUrl: './go-imdb.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GoImdbComponent {
   @Input() public imdbId: string;

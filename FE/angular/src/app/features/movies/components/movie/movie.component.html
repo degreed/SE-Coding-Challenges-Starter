@@ -2,7 +2,7 @@
 
 <ul *ngIf="movie" class="movie">
   <li class="grid grid-bleed">
-    <div class="image col-3"><img [src]="movie.Poster" [alt]="titleAndYear" /></div>
+    <div class="image col-3"><app-movie-image [src]="movie.Poster" [alt]="titleAndYear" /></div>
     <div class="content col-9 col-grid">
       <div class="title" title="{{ titleAndYear }}">
         <p class="ellipsis">{{ titleAndYear }}</p>

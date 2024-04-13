@@ -14,7 +14,7 @@ nav {
     padding: $mainFontSize 25px;
     border: 1px solid $lightGray;
     border-left-color: transparent;
-    cursor: default;
+    cursor: pointer;
 
     &:first-child {
       border-left: 1px solid $lightGray;
