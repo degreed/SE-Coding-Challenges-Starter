@@ -2,9 +2,11 @@
 
 <ul *ngIf="movie" class="movie">
   <li class="grid grid-bleed">
-    <div class="image col-3"><img [src]="movie.Poster" /></div>
+    <div class="image col-3"><img [src]="movie.Poster" [alt]="titleAndYear" /></div>
     <div class="content col-9 col-grid">
-      <div class="title">{{ movie.Title }} ({{ movie.Year }})</div>
+      <div class="title" title="{{ titleAndYear }}">
+        <p class="ellipsis">{{ titleAndYear }}</p>
+      </div>
       <ul class="metadata">
         <li class="rated">
           <div>{{ movie.Rated }}</div>

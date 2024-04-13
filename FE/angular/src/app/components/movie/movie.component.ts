@@ -9,6 +9,7 @@ import { DataService, MovieComplete } from '../../services/data.service';
 })
 export class MovieComponent implements OnDestroy, OnInit {
   public movie: MovieComplete;
+  public titleAndYear = '';
   private movieSubscription: Subscription = new Subscription();
 
   constructor(private activatedRoute: ActivatedRoute, private dataService: DataService) {}
@@ -18,10 +19,17 @@ export class MovieComponent implements OnDestroy, OnInit {
       this.activatedRoute.params
         .pipe(
           mergeMap(({ id }) => {
+            this.titleAndYear = '';
             return this.dataService.getMovie(id as string);
           })
         )
-        .subscribe((data: MovieComplete) => (this.movie = data))
+        .subscribe((data: MovieComplete) => {
+          this.movie = data;
+          if (this.movie && this.movie.Title && this.movie.Year) {
+            const year = String(this.movie.Year);
+            this.titleAndYear = this.movie.Title + ' (' + year + ')';
+          }
+        })
     );
   }
 
