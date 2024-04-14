@@ -58,6 +58,12 @@ export class DataService {
   }
 
   public getMovie(id: string): Observable<MovieComplete> {
+    const movie: MovieComplete | undefined = this.storedMovies?.Search?.find((movie: MovieComplete) => {
+      return movie.imdbID === id;
+    });
+    if (movie) {
+      return of(movie);
+    }
     return this.http.get<MovieDetails>(`&i=${id}`).pipe(
       map(({ Actors, Director, Genre, imdbID, Plot, Poster, Rated, Released, Runtime, Title, Type, Writer, Year }) => ({
         Actors,
