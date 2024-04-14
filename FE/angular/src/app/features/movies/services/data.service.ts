@@ -44,7 +44,6 @@ export class DataService {
   private decades: number[] = [];
   private posterUrl = 'https://m.media-amazon.com/images/M/';
   private replacePosterUrl = '/assets/images/';
-  private serviceUrl = 'https://www.omdbapi.com/?apikey=f59b2e4b&';
   private storedMovies: MovieData = { Search: [], Decades: [] };
 
   constructor(private http: HttpClient) {}
@@ -59,7 +58,7 @@ export class DataService {
   }
 
   public getMovie(id: string): Observable<MovieComplete> {
-    return this.http.get<MovieDetails>(`${this.serviceUrl}i=${id}`).pipe(
+    return this.http.get<MovieDetails>(`&i=${id}`).pipe(
       map(({ Actors, Director, Genre, imdbID, Plot, Poster, Rated, Released, Runtime, Title, Type, Writer, Year }) => ({
         Actors,
         Director,
@@ -83,7 +82,7 @@ export class DataService {
       return of(this.storedMovies);
     }
 
-    return this.http.get<SearchResults>(`${this.serviceUrl}s=Batman&type=movie`).pipe(
+    return this.http.get<SearchResults>(`&s=Batman&type=movie`).pipe(
       mergeMap(({ Search }) =>
         forkJoin(
           Search.map(({ imdbID, Year }) => {

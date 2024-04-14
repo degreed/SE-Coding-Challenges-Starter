@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { mockProvider, SpectatorService } from '@ngneat/spectator';
 import { createServiceFactory } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { DataService } from './data.service';
 
 const mockGet = jest.fn().mockReturnValue(of([]));
@@ -10,8 +9,8 @@ const mockHttpClient = mockProvider(HttpClient, {
   get: mockGet
 });
 
-const serviceUrl = 'https://www.omdbapi.com/?apikey=f59b2e4b&';
-const mockDecades = [2000, 2010];
+//const serviceUrl = 'https://www.omdbapi.com/?apikey=f59b2e4b&';
+//const mockDecades = [2000, 2010];
 const mockMovies = [
   {
     Title: 'Mock Movie',
@@ -88,7 +87,7 @@ describe('DataService', () => {
       service.getMovie(mockMovie.imdbID);
     });
     test('should call http.get', () => {
-      expect(mockGet).toBeCalledWith(`${serviceUrl}i=${mockMovie.imdbID}`);
+      expect(mockGet).toBeCalledWith(`&i=${mockMovie.imdbID}`);
     });
   });
 
@@ -99,7 +98,7 @@ describe('DataService', () => {
       service.getMovies();
     });
     test('should call http.get', () => {
-      expect(mockGet).toBeCalledWith(`${serviceUrl}s=Batman&type=movie`);
+      expect(mockGet).toBeCalledWith(`&s=Batman&type=movie`);
     });
   });
 });
