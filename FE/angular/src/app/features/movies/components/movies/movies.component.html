@@ -1,0 +1,32 @@
+<app-decades
+  *ngIf="decades?.length"
+  [decades]="decades"
+  [currDecade]="facade.currDecade$ | async"
+  (updateDecade)="displayMovies($event)"
+></app-decades>
+
+<ul class="movies" *ngIf="filteredMovies$ | async">
+  <li *ngFor="let movie of filteredMovies$ | async; trackBy: trackBy" class="grid grid-bleed">
+    <div class="image col-3">
+      <app-movie-image [src]="movie.Poster" [alt]="movie.Title" />
+    </div>
+    <div class="content col-9 col-grid">
+      <div class="title" title="{{ movie.Title }}">
+        <p class="ellipsis">{{ movie.Title }}</p>
+      </div>
+      <ul class="metadata">
+        <li class="rated">
+          <div>{{ movie.Rated }}</div>
+        </li>
+        <li class="runtime">{{ movie.Runtime }}</li>
+        <li class="release">{{ movie.Released }}</li>
+      </ul>
+      <div class="plot">
+        {{ movie.Plot }}
+      </div>
+      <div class="nav flex-footer">
+        <app-go-details [imdbId]="movie.imdbID"></app-go-details>
+      </div>
+    </div>
+  </li>
+</ul>
