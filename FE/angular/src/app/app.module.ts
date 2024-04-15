@@ -6,10 +6,20 @@ import { BaseUrlInterceptor } from './interceptor/base-url.interceptor';
 import { NavigationModule } from './libs/navigation/navigation.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, MoviesModule, NavigationModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MoviesModule,
+    NavigationModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([])
+  ],
   providers: [
     { provide: 'BASE_API_URL', useValue: 'https://www.omdbapi.com/?apikey=f59b2e4b' },
     {

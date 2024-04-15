@@ -1,69 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-
-interface SearchResults {
-  Response: string;
-  Search: Movie[];
-  totalResults: string;
-}
-
-interface Movie {
-  imdbID: string;
-  Poster: string;
-  Title: string;
-  Type: string;
-  Year: string | number;
-}
-
-interface MovieDetails extends Movie {
-  Actors: string;
-  Director: string;
-  Genre: string;
-  Plot: string;
-  Rated: string;
-  Released: string;
-  Runtime: string;
-  Writer: string;
-}
-
-export interface MovieComplete extends MovieDetails {
-  Year: number;
-}
-
-export interface MovieData {
-  Decades: number[];
-  Search: MovieComplete[];
-}
+import { MovieComplete, MovieData, MovieDetails, SearchResults } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private decades: number[] = [];
   private posterUrl = 'https://m.media-amazon.com/images/M/';
   private replacePosterUrl = '/assets/images/';
-  private storedMovies: MovieData = { Search: [], Decades: [] };
 
   constructor(private http: HttpClient) {}
 
-  public getFilteredMovies(movies: MovieComplete[], decade?: number): MovieComplete[] {
-    if (!decade) {
-      return movies;
-    }
-
-    const decadeLimit = decade + 10;
-    return movies.filter((movie) => movie.Year >= decade && movie.Year < decadeLimit);
-  }
-
   public getMovie(id: string): Observable<MovieComplete> {
-    const movie: MovieComplete | undefined = this.storedMovies?.Search?.find((movie: MovieComplete) => {
-      return movie.imdbID === id;
-    });
-    if (movie) {
-      return of(movie);
-    }
     return this.http.get<MovieDetails>(`&i=${id}`).pipe(
       map(({ Actors, Director, Genre, imdbID, Plot, Poster, Rated, Released, Runtime, Title, Type, Writer, Year }) => ({
         Actors,
@@ -84,30 +34,27 @@ export class DataService {
   }
 
   public getMovies(): Observable<MovieData> {
-    if (this.storedMovies && this.storedMovies.Search.length) {
-      return of(this.storedMovies);
-    }
-
     return this.http.get<SearchResults>(`&s=Batman&type=movie`).pipe(
       mergeMap(({ Search }) =>
         forkJoin(
-          Search.map(({ imdbID, Year }) => {
-            // add decade to decades
-            const decade = Math.ceil(parseInt(Year as string) / 10) * 10 - 10;
-            if (this.decades.indexOf(decade) < 0) {
-              this.decades.push(decade);
-            }
-
+          Search.map(({ imdbID }) => {
             return this.getMovie(imdbID);
           })
         )
       ),
       map((Search: MovieComplete[]) => {
-        Search = Search.sort(({ Year: year1 }: MovieComplete, { Year: year2 }: MovieComplete) => year1 - year2);
-        this.decades.sort((a, b) => a - b);
-        this.storedMovies = { Search, Decades: this.decades };
+        // add decade to decades
+        const decadesSet = new Set(
+          Search.map(({ Year }) => {
+            const decade = Math.ceil(Year / 10) * 10 - 10;
+            return decade;
+          })
+        );
+        const decades = Array.from(decadesSet).sort((a, b) => a - b);
 
-        return this.storedMovies;
+        Search = Search.sort(({ Year: year1 }: MovieComplete, { Year: year2 }: MovieComplete) => year1 - year2);
+
+        return { Search, Decades: decades };
       })
     );
   }

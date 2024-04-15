@@ -1,12 +1,12 @@
 <app-decades
-  *ngIf="decades.length"
+  *ngIf="decades?.length"
   [decades]="decades"
-  [currDecade]="currDecade"
+  [currDecade]="facade.currDecade$ | async"
   (updateDecade)="displayMovies($event)"
 ></app-decades>
 
-<ul class="movies" *ngIf="filteredMovies.length">
-  <li *ngFor="let movie of filteredMovies" class="grid grid-bleed">
+<ul class="movies" *ngIf="filteredMovies$ | async">
+  <li *ngFor="let movie of filteredMovies$ | async; trackBy: trackBy" class="grid grid-bleed">
     <div class="image col-3">
       <app-movie-image [src]="movie.Poster" [alt]="movie.Title" />
     </div>

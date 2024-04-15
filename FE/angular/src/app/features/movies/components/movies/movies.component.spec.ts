@@ -1,8 +1,8 @@
 import { mockProvider, Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
-import { DataService } from '../../services/data.service';
 import { MoviesComponent } from './movies.component';
+import { FacadeService } from '../../services/facade.service';
 
 const mockDecades = [2000];
 const mockMovies = [
@@ -40,11 +40,13 @@ const mockMovies = [
   }
 ];
 
-const mockGetMovies = jest.fn().mockReturnValue(of({ Decades: mockDecades, Search: mockMovies }));
-const mockGetFilteredMovies = jest.fn().mockReturnValue([mockMovies[0]]);
-const mockDataService = mockProvider(DataService, {
+const mockGetMovies = jest.fn().mockReturnValue(of(mockMovies));
+const mockGetDecades = jest.fn().mockReturnValue(of(mockDecades));
+const mockGetFilteredMovies = jest.fn().mockReturnValue(of([mockMovies[0]]));
+const mockFacadeService = mockProvider(FacadeService, {
   getMovies: mockGetMovies,
-  getFilteredMovies: mockGetFilteredMovies
+  filterMovies: mockGetFilteredMovies,
+  getDecades: mockGetDecades
 });
 
 describe('MovieComponent', () => {
@@ -54,7 +56,7 @@ describe('MovieComponent', () => {
     component: MoviesComponent,
     imports: [],
     declarations: [],
-    providers: [mockDataService],
+    providers: [mockFacadeService],
     shallow: true,
     detectChanges: false
   });
@@ -76,9 +78,10 @@ describe('MovieComponent', () => {
     test('should set decades', () => {
       expect(component.decades).toEqual(mockDecades);
     });
-    test('should set movies array', () => {
-      expect(component.movies).toEqual(mockMovies);
-    });
+    /* movies array was removed, movies are in the store */
+    // test('should set movies array', () => {
+    //   expect(component.movies).toEqual(mockMovies);
+    // });
   });
 
   describe('displayMovies', () => {
@@ -89,25 +92,33 @@ describe('MovieComponent', () => {
       beforeEach(() => {
         component.displayMovies();
       });
-      test('should set filteredMovies', () => {
-        expect(component.filteredMovies).toEqual([mockMovies[0]]);
-      });
-      describe('AND a decade is passed in', () => {
-        beforeEach(() => {
-          component.displayMovies(2000);
-        });
-        test('should set currDecade', () => {
-          expect(component.currDecade).toEqual(2000);
+      test('should set filteredMovies', (done) => {
+        component.filteredMovies$.subscribe((movies) => {
+          expect(movies).toEqual(mockMovies);
+          done();
         });
       });
+      /* This test belongs to facade */
+      // describe('AND a decade is passed in', () => {
+      //   beforeEach(() => {
+      //     component.displayMovies(2000);
+      //   });
+      //   test('should set currDecade', (done) => {
+      //     component.currDecade$.subscribe((decade) => {
+      //       expect(decade).toEqual(2000);
+      //       done();
+      //     });
+      //   });
+      // });
     });
-    describe('WHEN movies are undefined', () => {
-      test('should set filteredMovies to an empty array', () => {
-        component.movies = [];
-        spectator.detectComponentChanges();
-        component.displayMovies();
-        expect(component.filteredMovies).toEqual([]);
-      });
-    });
+    /* this test belongs to facade */
+    // describe('WHEN movies are undefined', () => {
+    //   test('should set filteredMovies to an empty array', () => {
+    //     component.movies = [];
+    //     spectator.detectComponentChanges();
+    //     component.displayMovies();
+    //     expect(component.filteredMovies).toEqual([]);
+    //   });
+    // });
   });
 });

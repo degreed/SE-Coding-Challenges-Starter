@@ -1,30 +1,30 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription, mergeMap } from 'rxjs';
-import { DataService, MovieComplete } from '../../services/data.service';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
+import { Subscription, map } from 'rxjs';
+import { MovieComplete } from 'src/app/features/movies/models/models';
 
 @Component({
   selector: 'app-movie',
-  templateUrl: './movie.component.html'
+  templateUrl: './movie.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieComponent implements OnDestroy, OnInit {
-  public movie: MovieComplete;
+  public movie: MovieComplete | undefined;
   public titleAndYear = '';
   private movieSubscription: Subscription = new Subscription();
 
-  constructor(private activatedRoute: ActivatedRoute, private dataService: DataService) {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   public ngOnInit() {
     this.movieSubscription.add(
-      this.activatedRoute.params
+      this.activatedRoute.data
         .pipe(
-          mergeMap(({ id }) => {
-            this.titleAndYear = '';
-            return this.dataService.getMovie(id as string);
+          map((data: Data) => {
+            return data && data['movie'] ? <MovieComplete>data['movie'] : undefined;
           })
         )
-        .subscribe((data: MovieComplete) => {
-          this.movie = data;
+        .subscribe((movie: MovieComplete | undefined) => {
+          this.movie = movie;
           if (this.movie && this.movie.Title && this.movie.Year) {
             const year = String(this.movie.Year);
             this.titleAndYear = this.movie.Title + ' (' + year + ')';

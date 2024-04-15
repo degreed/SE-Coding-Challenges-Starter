@@ -1,48 +1,38 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, tap } from 'rxjs';
-
-import { DataService, MovieComplete, MovieData } from '../../services/data.service';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { MovieComplete } from 'src/app/features/movies/models/models';
+import { FacadeService } from '../../services/facade.service';
 
 @Component({
   selector: 'app-movies',
-  templateUrl: './movies.component.html'
+  templateUrl: './movies.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MoviesComponent implements OnDestroy, OnInit {
-  public currDecade: number | undefined;
+export class MoviesComponent implements OnInit, OnDestroy {
   public decades: number[] = [];
-  public filteredMovies: MovieComplete[] = [];
-  public movies: MovieComplete[] = [];
+  public filteredMovies$: Observable<MovieComplete[]>;
+  private subscription: Subscription = new Subscription();
 
-  private moviesSubscription: Subscription = new Subscription();
-
-  constructor(private dataService: DataService) {}
+  constructor(public facade: FacadeService) {}
 
   public ngOnInit(): void {
-    this.moviesSubscription.add(
-      this.dataService
-        .getMovies()
-        .pipe(
-          tap((data: MovieData) => {
-            this.decades = data.Decades;
-            this.movies = data.Search;
-            this.displayMovies();
-          })
-        )
-        .subscribe()
+    this.filteredMovies$ = this.facade.getMovies();
+    this.subscription.add(
+      this.facade.getDecades().subscribe((decades: number[]) => {
+        this.decades = decades;
+      })
     );
   }
 
   public ngOnDestroy(): void {
-    this.moviesSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   public displayMovies(decade?: number): void {
-    if (!this.movies?.length) {
-      this.filteredMovies = [];
-      return;
-    }
+    if (decade) this.facade.filterByDecade(decade);
+  }
 
-    this.currDecade = decade;
-    this.filteredMovies = this.dataService.getFilteredMovies(this.movies, decade);
+  public trackBy(index: number, movie: MovieComplete) {
+    return movie.imdbID;
   }
 }

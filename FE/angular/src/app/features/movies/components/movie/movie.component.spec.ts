@@ -1,17 +1,16 @@
 import { ActivatedRoute } from '@angular/router';
 import { mockProvider, Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
-import { DataService } from '../../services/data.service';
 import { MovieComponent } from './movie.component';
 import { of } from 'rxjs';
 
 const mockActivatedRoute = mockProvider(ActivatedRoute, {
   params: {
     pipe: jest.fn(() => of({ id: '11tt123' }))
+  },
+  data: {
+    pipe: jest.fn(() => of({ id: '11tt123' }))
   }
-});
-const mockDataService = mockProvider(DataService, {
-  getMovie: jest.fn()
 });
 
 describe('MovieComponent', () => {
@@ -21,7 +20,7 @@ describe('MovieComponent', () => {
     component: MovieComponent,
     imports: [],
     declarations: [],
-    providers: [mockActivatedRoute, mockDataService],
+    providers: [mockActivatedRoute],
     shallow: true,
     detectChanges: false
   });

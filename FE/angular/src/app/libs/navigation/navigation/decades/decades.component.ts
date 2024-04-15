@@ -1,20 +1,22 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { BaseLink, Link } from '../../sidebar/sidebar.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-decades',
   templateUrl: './decades.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DecadesComponent implements OnInit {
-  @Input() public currDecade: number | undefined;
+export class DecadesComponent implements OnInit, OnDestroy {
+  @Input() public currDecade: number | undefined | null;
   @Input() public decades: number[];
   @Output() public updateDecade = new EventEmitter<number | undefined>();
 
   public currentUrl = '';
   public links: BaseLink[];
+  private subscription: Subscription = new Subscription();
 
   constructor(private router: Router) {}
 
@@ -29,10 +31,15 @@ export class DecadesComponent implements OnInit {
         label: `${decade}'s`
       }))
     ];
+    this.subscription.add(
+      this.router.events
+        .pipe(filter((event) => !!(event instanceof NavigationEnd)))
+        .subscribe((event) => (this.currentUrl = (event as NavigationEnd).url))
+    );
+  }
 
-    this.router.events
-      .pipe(filter((event) => !!(event instanceof NavigationEnd)))
-      .subscribe((event) => (this.currentUrl = (event as NavigationEnd).url));
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public passDecade({ index, label }: Link) {
