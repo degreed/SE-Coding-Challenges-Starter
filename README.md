@@ -20,8 +20,9 @@ We want you to succeed and show us what you can do!
 
 - Repair our web application code so that it runs and matches the design above.
 - Be sure to fix any other bugs or issues you see. [Don't forget about accessibility!](https://www.w3.org/WAI/)
-  - Extra credit: add or update unit tests.
-- As a final step, imagine you've been asked to refactor this small application into something that could function at scale. Create a map (graphical, HTML, ASCHII, in words — your choice!) for changes you'd make to the structure and add that to the README. Go as big as you want, really have fun with it — just be prepared to explain your suggestions!
+- Ensure that existing unit tests pass.
+  - Extra credit: add or update unit tests for better coverage.
+- As a final step, imagine you've been asked to refactor this small application into something that could function at scale. Create a map (graphical, HTML, ASCHII, in words... your choice!) for changes you'd make to the structure and add that to the README. Go as big as you want, really have fun with it; just be prepared to explain your suggestions!
 
 > Your solution **must** be your own, created without help and not copied from another source.
 
