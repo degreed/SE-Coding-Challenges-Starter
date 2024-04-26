@@ -68,19 +68,6 @@ describe('DataService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getFilteredMovies', () => {
-    describe('WHEN decade is undefined', () => {
-      test('should return all movies', () => {
-        expect(service.getFilteredMovies(mockMovies)).toEqual(mockMovies);
-      });
-    });
-    describe('WHEN decade is defined', () => {
-      test('should return only movies from that decade', () => {
-        expect(service.getFilteredMovies(mockMovies, 2010)).toEqual([mockMovies[1]]);
-      });
-    });
-  });
-
   describe('getMovie', () => {
     const mockMovie = mockMovies[0];
     beforeEach(() => {

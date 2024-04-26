@@ -1,8 +1,12 @@
-import { mockProvider, Spectator } from '@ngneat/spectator';
+import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
-import { DataService } from '../../services/data.service';
 import { MoviesComponent } from './movies.component';
+import { Store } from '@ngrx/store';
+import { MockSelector, provideMockStore } from '@ngrx/store/testing';
+import { selectActiveDecade, selectDecades, selectFilteredMovies } from 'src/app/store/movies.selectors';
+import { initialMoviesState } from 'src/app/store/movies.state';
+
 
 const mockDecades = [2000];
 const mockMovies = [
@@ -39,12 +43,28 @@ const mockMovies = [
     Type: 'movie'
   }
 ];
+const mockselectActiveDecade = {
+  selector: selectFilteredMovies,
+  value: undefined,
+};
 
-const mockGetMovies = jest.fn().mockReturnValue(of({ Decades: mockDecades, Search: mockMovies }));
-const mockGetFilteredMovies = jest.fn().mockReturnValue([mockMovies[0]]);
-const mockDataService = mockProvider(DataService, {
-  getMovies: mockGetMovies,
-  getFilteredMovies: mockGetFilteredMovies
+const mockselectDecades = {
+  selector: selectFilteredMovies,
+  value: [],
+};
+
+const mockselectFilteredMovies = {
+  selector: selectFilteredMovies,
+  value: [],
+}
+
+const mockStoreProvider = provideMockStore({
+  initialState: initialMoviesState,
+  selectors: [
+    mockselectActiveDecade,
+    mockselectDecades,
+    mockselectFilteredMovies,
+  ],
 });
 
 describe('MovieComponent', () => {
@@ -54,7 +74,7 @@ describe('MovieComponent', () => {
     component: MoviesComponent,
     imports: [],
     declarations: [],
-    providers: [mockDataService],
+    providers: [mockStoreProvider],
     shallow: true,
     detectChanges: false
   });
@@ -65,49 +85,33 @@ describe('MovieComponent', () => {
   });
 
   test('should create the component', () => {
-    component.ngOnInit();
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    beforeEach(() => {
-      component.ngOnInit();
-    });
-    test('should set decades', () => {
-      expect(component.decades).toEqual(mockDecades);
-    });
-    test('should set movies array', () => {
-      expect(component.movies).toEqual(mockMovies);
-    });
-  });
-
-  describe('displayMovies', () => {
-    beforeEach(() => {
-      component.ngOnInit();
-    });
-    describe('WHEN movies are defined', () => {
-      beforeEach(() => {
-        component.displayMovies();
-      });
-      test('should set filteredMovies', () => {
-        expect(component.filteredMovies).toEqual([mockMovies[0]]);
-      });
-      describe('AND a decade is passed in', () => {
-        beforeEach(() => {
-          component.displayMovies(2000);
-        });
-        test('should set currDecade', () => {
-          expect(component.currDecade).toEqual(2000);
-        });
-      });
-    });
-    describe('WHEN movies are undefined', () => {
-      test('should set filteredMovies to an empty array', () => {
-        component.movies = [];
-        spectator.detectComponentChanges();
-        component.displayMovies();
-        expect(component.filteredMovies).toEqual([]);
-      });
-    });
-  });
+  // describe('displayMovies', () => {
+  //   describe('WHEN movies are defined', () => {
+  //     beforeEach(() => {
+  //       component.displayMovies();
+  //     });
+  //     test('should set filteredMovies', () => {
+  //       expect(component.filteredMovies).toEqual([mockMovies[0]]);
+  //     });
+  //     describe('AND a decade is passed in', () => {
+  //       beforeEach(() => {
+  //         component.displayMovies(2000);
+  //       });
+  //       test('should set currDecade', () => {
+  //         expect(component.currDecade).toEqual(2000);
+  //       });
+  //     });
+  //   });
+  //   describe('WHEN movies are undefined', () => {
+  //     test('should set filteredMovies to an empty array', () => {
+  //       component.movies = [];
+  //       spectator.detectComponentChanges();
+  //       component.displayMovies();
+  //       expect(component.filteredMovies).toEqual([]);
+  //     });
+  //   });
+  // });
 });

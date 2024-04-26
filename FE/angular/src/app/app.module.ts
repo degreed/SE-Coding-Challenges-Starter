@@ -12,6 +12,11 @@ import { GoImdbComponent } from './components/navigation/go-imdb/go-imdb.compone
 import { NavigationService } from './components/navigation/navigation.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DataService } from './services/data.service';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { storeReducers } from './store/movies.reducers';
+import { MoviesStateEffect } from './store/movies.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,16 @@ import { DataService } from './services/data.service';
     AppComponent,
     DecadesComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    StoreModule.forRoot(storeReducers),
+    EffectsModule.forRoot([MoviesStateEffect]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 50
+    })
+  ],
   providers: [DataService, NavigationService],
   bootstrap: [AppComponent]
 })
