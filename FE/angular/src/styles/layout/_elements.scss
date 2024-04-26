@@ -13,6 +13,8 @@ ul {
 }
 
 button {
+  cursor: pointer;
+
   &.imdb,
   &.detail {
     background: #f9b44a;

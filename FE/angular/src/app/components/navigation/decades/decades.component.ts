@@ -8,7 +8,7 @@ import { BaseLink, Link } from '../../sidebar/sidebar.component';
   templateUrl: './decades.component.html'
 })
 export class DecadesComponent implements OnInit {
-  @Input() public currDecade: number | undefined;
+  @Input() public currDecade: number | undefined | null;
   @Input() public decades: number[];
   @Output() public updateDecade = new EventEmitter<number | undefined>();
 

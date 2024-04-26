@@ -1,25 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs';
-import { DataService, MovieComplete } from '../../services/data.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { setActiveMovieId } from 'src/app/store/movies.actions';
+import { selectActiveMovie } from 'src/app/store/movies.selectors';
+import { MovieComplete } from 'src/app/store/types/movies';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html'
 })
-export class MovieComponent implements OnDestroy, OnInit {
-  public movie: MovieComplete;
-  public movieId = '';
-  private movieSubscription: any;
+export class MovieComponent implements OnInit {
+  public movie$: Observable<MovieComplete | undefined> = this.store.select(selectActiveMovie);
 
-  constructor(private activatedRoute: ActivatedRoute, private dataService: DataService) {}
+  constructor(private activatedRoute: ActivatedRoute, private store: Store) {}
 
   public ngOnInit() {
-    this.activatedRoute.params.pipe(tap(({ id }) => (this.movieId = id)));
-    this.movieSubscription = this.dataService.getMovie(this.movieId).pipe(tap((data) => (this.movie = data)));
-  }
-
-  public ngOnDestroy(): void {
-    this.movieSubscription.unsubscribe();
+    if (this.activatedRoute.snapshot.params.id) {
+      const activeMovieId: string = this.activatedRoute.snapshot.params.id as string;
+      this.store.dispatch(setActiveMovieId({ activeMovieId }));
+    }
   }
 }
