@@ -1,13 +1,13 @@
 import { mockProvider, Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
-import { DataService } from '../../services/data.service';
+import { MoviesDataService } from './data.service';
 import { MoviesComponent } from './movies.component';
 import { mockDecades, mockMovies } from '../../tests/mock-data';
 
 const mockGetMovies = jest.fn().mockReturnValue(of({ Decades: mockDecades, Search: mockMovies }));
 const mockGetFilteredMovies = jest.fn().mockReturnValue([mockMovies[0]]);
-const mockDataService = mockProvider(DataService, {
+const mockDataService = mockProvider(MoviesDataService, {
   getMovies: mockGetMovies,
   getFilteredMovies: mockGetFilteredMovies
 });
