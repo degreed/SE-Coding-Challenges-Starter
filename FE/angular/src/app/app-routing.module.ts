@@ -4,11 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./components/movies/movies.module').then(m => m.MoviesModule) 
+    loadChildren: () => import('./components/movies/movies.module').then((m) => m.MoviesModule)
   },
-  { path: 'movie/:id',
-    loadChildren: () => import('./components/movie/movie.module').then(m => m.MovieModule)
-  }
+  { path: 'movie/:id', loadChildren: () => import('./components/movie/movie.module').then((m) => m.MovieModule) }
 ];
 
 @NgModule({

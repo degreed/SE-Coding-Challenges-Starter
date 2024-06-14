@@ -8,4 +8,4 @@ const routes: Routes = [{ path: '', component: MoviesComponent }];
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MovieRoutingModule { }
+export class MovieRoutingModule {}

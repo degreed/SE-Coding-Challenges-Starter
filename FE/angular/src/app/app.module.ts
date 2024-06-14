@@ -7,9 +7,7 @@ import { NavigationService } from './components/navigation/navigation.service';
 import { DataService } from './services/data.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [DataService, NavigationService],
   bootstrap: [AppComponent]

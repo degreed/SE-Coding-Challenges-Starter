@@ -6,16 +6,8 @@ import { MovieComponent } from './movie.component';
 import { GoBackModule } from '../navigation/go-back/go-back.module';
 import { GoImdbModule } from '../navigation/go-imdb/go-imdb.module';
 
-
 @NgModule({
-  declarations: [
-    MovieComponent
-  ],
-  imports: [
-    CommonModule,
-    MovieRoutingModule,
-    GoBackModule,
-    GoImdbModule
-  ]
+  declarations: [MovieComponent],
+  imports: [CommonModule, MovieRoutingModule, GoBackModule, GoImdbModule]
 })
-export class MovieModule { }
+export class MovieModule {}

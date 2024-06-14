@@ -7,14 +7,7 @@ import { GoDetailsModule } from '../navigation/go-details/go-details.module';
 import { DecadesModule } from '../navigation/decades/decades.module';
 
 @NgModule({
-  declarations: [
-    MoviesComponent
-  ],
-  imports: [
-    CommonModule,
-    MovieRoutingModule,
-    GoDetailsModule,
-    DecadesModule
-  ]
+  declarations: [MoviesComponent],
+  imports: [CommonModule, MovieRoutingModule, GoDetailsModule, DecadesModule]
 })
-export class MoviesModule { }
+export class MoviesModule {}
