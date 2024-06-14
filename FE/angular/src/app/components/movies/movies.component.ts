@@ -22,7 +22,7 @@ export class MoviesComponent implements OnDestroy, OnInit {
         this.movies = data.Search;
         this.displayMovies();
       })
-    );
+    ).subscribe();
   }
 
   public ngOnDestroy(): void {
