@@ -1,1 +1,1 @@
-<button (click)="navigateTo(imdbId)" class="detail">View Details</button>
+<button (click)="navigateTo(imdbId)" [attr.aria-label]="'View Details for ' + movieName" class="detail">View Details</button>

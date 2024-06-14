@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, tap } from 'rxjs';
 import { MoviesDataService } from './data.service';
 import { MovieComplete } from '../movie/movie.models';
+import { Title } from '@angular/platform-browser';
+import { Constants } from 'src/app/constants/constant';
 
 @Component({
   selector: 'app-movies',
@@ -14,9 +16,10 @@ export class MoviesComponent implements OnDestroy, OnInit {
   public movies: MovieComplete[] = [];
   private moviesSubscription: Subscription;
 
-  constructor(private dataService: MoviesDataService) {}
+  constructor(private dataService: MoviesDataService, private title: Title) {}
 
   public ngOnInit(): void {
+    this.title.setTitle(Constants.moviesHomePage);
     this.moviesSubscription = this.dataService
       .getMovies()
       .pipe(

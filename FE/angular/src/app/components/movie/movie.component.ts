@@ -3,6 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription, tap } from 'rxjs';
 import { MovieDataService } from './data.service';
 import { MovieComplete } from './movie.models';
+import { Title } from '@angular/platform-browser';
+import { Constants } from 'src/app/constants/constant';
 
 @Component({
   selector: 'app-movie',
@@ -14,9 +16,14 @@ export class MovieComponent implements OnDestroy, OnInit {
   private movieSubscription: Subscription;
   private activatedRouteSubscription: Subscription;
 
-  constructor(private activatedRoute: ActivatedRoute, private moviedataService: MovieDataService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private moviedataService: MovieDataService,
+    private title: Title
+  ) {}
 
   public ngOnInit() {
+    this.title.setTitle(Constants.movieDetailPage);
     this.activatedRouteSubscription = this.activatedRoute.params
       .pipe(
         tap((params: Params) => {

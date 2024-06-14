@@ -7,6 +7,7 @@ import { NavigationService } from '../navigation.service';
 })
 export class GoDetailsComponent {
   @Input() public imdbId: string;
+  @Input() public movieName: string;
 
   constructor(private navigationService: NavigationService) {}
 
