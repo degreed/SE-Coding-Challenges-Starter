@@ -5,7 +5,8 @@ import { BaseLink, Link } from '../../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-decades',
-  templateUrl: './decades.component.html'
+  templateUrl: './decades.component.html',
+  styleUrls: ['./decades.component.scss']
 })
 export class DecadesComponent implements OnInit {
   @Input() public currDecade: number | undefined;
