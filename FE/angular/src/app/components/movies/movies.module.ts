@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { MovieRoutingModule } from './movies-routing.module';
 import { MoviesComponent } from './movies.component';
+import { GoDetailsModule } from '../navigation/go-details/go-details.module';
+import { DecadesModule } from '../navigation/decades/decades.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +12,9 @@ import { MoviesComponent } from './movies.component';
   ],
   imports: [
     CommonModule,
-    MovieRoutingModule
+    MovieRoutingModule,
+    GoDetailsModule,
+    DecadesModule
   ]
 })
 export class MoviesModule { }

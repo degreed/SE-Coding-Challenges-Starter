@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { MovieRoutingModule } from './movie-routing.module';
 import { MovieComponent } from './movie.component';
+import { GoBackModule } from '../navigation/go-back/go-back.module';
+import { GoImdbModule } from '../navigation/go-imdb/go-imdb.module';
 
 
 @NgModule({
@@ -12,6 +14,8 @@ import { MovieComponent } from './movie.component';
   imports: [
     CommonModule,
     MovieRoutingModule,
+    GoBackModule,
+    GoImdbModule
   ]
 })
 export class MovieModule { }

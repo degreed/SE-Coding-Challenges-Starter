@@ -2,13 +2,15 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { DecadesComponent } from "./decades.component";
+import { SidebarModule } from "../../sidebar/sidebar.module";
 
 @NgModule({
     declarations: [
         DecadesComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        SidebarModule
     ],
     exports: [
         DecadesComponent

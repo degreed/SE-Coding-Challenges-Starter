@@ -14,4 +14,4 @@ import { SidebarComponent } from "./sidebar.component";
         SidebarComponent
     ]
 })
-export class GoImdbModule { }
+export class SidebarModule { }
