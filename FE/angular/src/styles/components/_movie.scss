@@ -28,6 +28,11 @@
         height: $wideSpace;
         border-bottom: 1px solid $darkGray;
       }
+      .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;   
+        text-overflow: ellipsis;
+      }
       .details,
       .metadata {
         margin-top: 10px;

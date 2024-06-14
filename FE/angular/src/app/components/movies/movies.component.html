@@ -9,7 +9,7 @@
   <li *ngFor="let movie of filteredMovies" class="grid grid-bleed">
     <div class="image col-3"><img [src]="movie.Poster" /></div>
     <div class="content col-9 col-grid">
-      <div class="title">{{ movie.Title }}</div>
+      <div class="title ellipsis">{{ movie.Title }}</div>
       <ul class="metadata">
         <li class="rated">
           <div>{{ movie.Rated }}</div>
