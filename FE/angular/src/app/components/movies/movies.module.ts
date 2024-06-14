@@ -7,10 +7,11 @@ import { GoDetailsModule } from '../navigation/go-details/go-details.module';
 import { DecadesModule } from '../navigation/decades/decades.module';
 import { MovieDataService } from '../movie/data.service';
 import { MoviesDataService } from './data.service';
+import { MovieDetailModule } from '../movie-detail/movie-detail.module';
 
 @NgModule({
   declarations: [MoviesComponent],
-  imports: [CommonModule, MovieRoutingModule, GoDetailsModule, DecadesModule],
+  imports: [CommonModule, MovieRoutingModule, GoDetailsModule, DecadesModule, MovieDetailModule],
   providers: [MovieDataService, MoviesDataService]
 })
 export class MoviesModule {}
