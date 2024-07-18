@@ -1,5 +1,5 @@
 <div class="movie-detail">
-    <div class="image col-3"><img [src]="movie.Poster" /></div>
+    <div class="image col-3"><img [src]="movie.Poster" (error)="handleImageError($event)"/></div>
     <div class="content col-9 col-grid">
         <div class="title">{{ movie.Title }} <span *ngIf="!isMovies"> {{movie.Year}} </span></div>
         <ul class="metadata">

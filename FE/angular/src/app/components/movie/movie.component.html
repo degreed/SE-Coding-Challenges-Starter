@@ -1,6 +1,6 @@
 <app-go-back></app-go-back>
 
-<ul *ngIf="movie" class="movie">
+<ul *ngIf="movie$ | async as movie" class="movie">
   <li class="grid grid-bleed">
     <movie-detail [isMovies]="false" [movie]="movie"></movie-detail>
   </li>

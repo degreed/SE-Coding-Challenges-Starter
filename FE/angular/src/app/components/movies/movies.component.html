@@ -1,12 +1,14 @@
-<app-decades
-  *ngIf="decades.length"
-  [decades]="decades"
-  [currDecade]="currDecade"
-  (updateDecade)="displayMovies($event)"
-></app-decades>
-
-<ul class="movies" *ngIf="filteredMovies.length">
-  <li *ngFor="let movie of filteredMovies" class="grid grid-bleed">
-    <movie-detail [isMovies]="true" [movie]="movie"></movie-detail>
-  </li>
-</ul>
+<div *ngIf="fetchMoviesData$ | async">
+  <app-decades
+    *ngIf="decades.length"
+    [decades]="decades"
+    [currDecade]="currDecade"
+    (updateDecade)="displayMovies($event)"
+  ></app-decades>
+  
+  <ul class="movies" *ngIf="filteredMovies.length">
+    <li *ngFor="let movie of filteredMovies" class="grid grid-bleed">
+      <movie-detail [isMovies]="true" [movie]="movie"></movie-detail>
+    </li>
+  </ul>
+</div>

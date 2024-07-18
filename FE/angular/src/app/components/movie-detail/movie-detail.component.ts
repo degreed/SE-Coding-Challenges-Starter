@@ -10,4 +10,10 @@ export class MovieDetailComponent {
   @Input() isMovies = false;
 
   @Input() movie: MovieComplete;
+
+  public fallBackImage: string = './assets/images/placeholder.jpg';
+
+  handleImageError(event: Event): void {
+    (event.target as HTMLImageElement).src = this.fallBackImage
+  }
 }
