@@ -1,25 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs';
-import { DataService, MovieComplete } from '../../services/data.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Observable, map, switchMap, tap } from 'rxjs';
+import { MovieDataService } from './data.service';
+import { MovieComplete } from './movie.models';
+import { Title } from '@angular/platform-browser';
+import { Constants } from '../../../app/constants/constant';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html'
 })
-export class MovieComponent implements OnDestroy, OnInit {
+export class MovieComponent implements OnInit {
   public movie: MovieComplete;
   public movieId = '';
-  private movieSubscription: any;
 
-  constructor(private activatedRoute: ActivatedRoute, private dataService: DataService) {}
+  /* Replaced the subscription and handling it as observable with async pipe */
+  public movie$: Observable<MovieComplete>;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private movieDataService: MovieDataService,
+    private title: Title
+  ) {}
 
   public ngOnInit() {
-    this.activatedRoute.params.pipe(tap(({ id }) => (this.movieId = id)));
-    this.movieSubscription = this.dataService.getMovie(this.movieId).pipe(tap((data) => (this.movie = data)));
-  }
+    this.title.setTitle(Constants.movieDetailPage);
 
-  public ngOnDestroy(): void {
-    this.movieSubscription.unsubscribe();
+    this.movie$ = this.activatedRoute.params.pipe(
+      map((params: Params) => params.id),
+      switchMap((movieId: string) => this.movieDataService.getMovie(movieId))
+    );
   }
 }

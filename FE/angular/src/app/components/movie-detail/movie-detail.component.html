@@ -1,0 +1,35 @@
+<div class="movie-detail">
+    <div class="image col-3"><img [src]="movie.Poster" (error)="handleImageError($event)"/></div>
+    <div class="content col-9 col-grid">
+        <div class="title">{{ movie.Title }} <span *ngIf="!isMovies"> {{movie.Year}} </span></div>
+        <ul class="metadata">
+            <li class="rated" [attr.aria-label]="movie.Rated">
+                <div>{{ movie.Rated }}</div>
+            </li>
+            <li class="runtime" [attr.aria-label]="movie.Runtime">{{ movie.Runtime }}</li>
+            <li class="genre" *ngIf="!isMovies" [attr.aria-label]="movie.Genre">{{ movie.Genre }}</li>
+            <li class="release" [attr.aria-label]="movie.Released">{{ movie.Released }}</li>
+        </ul>
+        <ul class="details" *ngIf="!isMovies">
+            <li [attr.aria-label]="movie.Director">
+                <strong>Director:</strong>
+                {{ movie.Director }}
+            </li>
+            <li [attr.aria-label]="movie.Writer">
+                <strong>Writer:</strong>
+                {{ movie.Writer }}
+            </li>
+            <li [attr.aria-label]="movie.Actors">
+                <strong>Stars:</strong>
+                {{ movie.Actors }}
+            </li>
+        </ul>
+        <div class="plot" [attr.aria-label]="movie.Plot">
+            {{ movie.Plot }}
+        </div>
+        <div class="nav flex-footer">
+            <app-go-details *ngIf="isMovies" [movieName]="movie.Title" [imdbId]="movie.imdbID"></app-go-details>
+            <app-go-imdb *ngIf="!isMovies" [imdbId]="movie.imdbID"></app-go-imdb>
+        </div>
+    </div>
+</div>
